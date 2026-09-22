@@ -165,11 +165,17 @@ export const App: React.FC = () => {
     const targetSet = updatedSets.find((s) => s.id === setId) || updatedSets.find((s) => s.title === topicName);
 
     if (targetSet) {
+      setCurrentStudySet(targetSet);
       if (startMode === 'reader') {
         handleOpenReader(targetSet);
-      } else {
+      } else if (startMode === 'practice') {
         handleSelectSetToPractice(targetSet);
+      } else {
+        // Khi không chọn Mode nào (bấm đóng để xem danh sách), luôn chuyển về tab 'sentences' (Bộ câu)
+        setActiveTab('sentences');
       }
+    } else {
+      setActiveTab('sentences');
     }
   };
 

@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import type { TopicGroup } from '../types';
 import { storageService } from '../utils/storageService';
 import { detectAndSplitTopics } from '../utils/documentParser';
+import confetti from 'canvas-confetti';
 import {
   UploadCloud,
   FileText,
@@ -339,6 +340,16 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
         passageText || chosen.map((s) => s.text).join(' ')
       );
 
+      // Bắn pháo hoa ăn mừng
+      confetti({
+        particleCount: 80,
+        spread: 60,
+        origin: { y: 0.6 },
+      });
+
+      // Kích hoạt ngay lập tức để App.tsx tự động reload dữ liệu và render ngay lập tức!
+      onSuccess(res.set_id, res.topic_name, res.saved_count);
+
       setSavedResult({
         setId: res.set_id,
         topicName: res.topic_name,
@@ -360,10 +371,22 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
     try {
       const res = storageService.saveTopicSets(detectedTopics);
       const firstSet = res.created_sets[0];
+      const totalCount = res.created_sets.reduce((sum, s) => sum + s.count, 0);
+
+      // Bắn pháo hoa ăn mừng
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+
+      // Kích hoạt ngay lập tức để App.tsx tự động reload dữ liệu và render ngay lập tức!
+      onSuccess(firstSet?.set_id || 1, `${res.created_sets.length} Bộ câu theo chủ đề`, totalCount);
+
       setSavedResult({
         setId: firstSet?.set_id || 1,
         topicName: `${res.created_sets.length} Bộ câu theo chủ đề`,
-        count: res.created_sets.reduce((sum, s) => sum + s.count, 0),
+        count: totalCount,
       });
     } catch (err: any) {
       setErrorMessage(err.message || 'Lỗi lưu các bộ câu theo chủ đề.');
@@ -373,6 +396,9 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
   };
 
   const handleResetAndClose = () => {
+    if (savedResult) {
+      onSuccess(savedResult.setId, savedResult.topicName, savedResult.count);
+    }
     setSelectedFile(null);
     setPastedText('');
     setTopicName('');
@@ -557,6 +583,17 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
                     <span>Vào phòng thu âm</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>
+                </button>
+              </div>
+
+              {/* Close Button to view newly rendered list */}
+              <div className="pt-2 max-w-sm mx-auto">
+                <button
+                  type="button"
+                  onClick={handleResetAndClose}
+                  className="w-full py-2.5 px-4 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-bold text-slate-600 hover:text-slate-900 transition-all cursor-pointer shadow-xs"
+                >
+                  ✕ Đóng và xem danh sách Bộ câu đã tạo
                 </button>
               </div>
             </div>
