@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="bgGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <linearGradient id="goldGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+  </defs>
+
+  <rect width="192" height="192" rx="48" fill="url(#bgGrad192)" />
+
+  <g transform="translate(36, 26)">
+    <rect x="42" y="24" width="36" height="64" rx="18" fill="white" />
+    <path d="M 28 56 C 28 92, 92 92, 92 56" fill="none" stroke="white" stroke-width="8" stroke-linecap="round" />
+    <line x1="60" y1="92" x2="60" y2="114" stroke="white" stroke-width="8" stroke-linecap="round" />
+    <line x1="40" y1="114" x2="80" y2="114" stroke="white" stroke-width="8" stroke-linecap="round" />
+    <path d="M 96 14 Q 96 24 106 24 Q 96 24 96 34 Q 96 24 86 24 Q 96 24 96 14 Z" fill="url(#goldGrad192)" />
+  </g>
+  <text x="96" y="166" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-weight="900" font-size="22" fill="#ffffff" letter-spacing="2" text-anchor="middle">PESA</text>
+</svg>
